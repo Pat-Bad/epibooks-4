@@ -5,7 +5,7 @@ import Error from "./Error";
 import { useEffect, useState } from "react";
 
 const CommentArea = (props) => {
-  const [comments, setComments] = useState({ comments: [] });
+  const [comments, setComments] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,7 @@ const CommentArea = (props) => {
     })
       .then((response) => {
         if (response.ok) {
-          return response.json;
+          return response.json();
         } else {
           throw new Error("Errore!");
         }
@@ -31,26 +31,21 @@ const CommentArea = (props) => {
       .then((response) => {
         setComments(response);
         setIsLoading(false);
-        setIsError(false);
       })
-      .catch(
-        (error) => {
-          console.log(error);
-          setIsLoading(false);
-          setIsError(true);
-        },
-        [props.asin]
-      );
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        setIsError(true);
+      });
+  }, [props.asin]);
 
-    return (
-      <div className="text-center">
-        {isLoading && <Loading />}
-        {isError && <Error />}
-        <AddComment asin={props.asin} />
-        <CommentList commentsToShow={comments} />
-      </div>
-    );
-  });
+  return (
+    <div className="text-center">
+      {isLoading && <Loading />}
+      {isError && <Error />}
+      <AddComment asin={props.asin} />
+      <CommentList commentsToShow={comments} />
+    </div>
+  );
 };
-
 export default CommentArea;

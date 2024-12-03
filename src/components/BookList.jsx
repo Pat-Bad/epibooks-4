@@ -39,7 +39,7 @@ const BookList = () => {
                 >
                   <SingleBook
                     book={b}
-                    selectedBook={this.state.selectedBook}
+                    selectedBook={setSelectedBook}
                     changeSelectedBook={setSelectedBook}
                   />
                 </Col>
